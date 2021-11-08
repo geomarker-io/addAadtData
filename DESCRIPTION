@@ -1,0 +1,43 @@
+Package: addAadtData
+Title: Add Average Annual Daily Traffic Values to Geocoded Data
+Version: 0.0.1
+Authors@R: c(
+    person(given = "Erika",
+           family = "Rasnick",
+           role = c("aut", "cre"),
+           email = "erika.rasnick@cchmc.org"), 
+    person(given = "Cole",
+           family = "Brokamp",
+           role = c("aut"))
+           )
+Description: The addAadtData package adds average annual daily traffic values to 
+                geocoded data. The user supplies a buffer radius to assess traffic
+                exposure around the input locations. Values returned include lengths
+                (meters), vehicle meters, and truck meters for both moving traffic 
+                (interstates, expressways, and freeways) and stop-and-go traffic
+                (arterial roads).
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Depends: 
+    R (>= 2.10)
+LazyData: true
+Imports: 
+    sf (>= 1.0-2),
+    magrittr,
+    dplyr (>= 1.0.7),
+    glue (>= 1.4.2),
+    s3 (>= 0.3.1),
+    cli (>= 3.1.0),
+    qs (>= 0.24.1),
+    tidyr (>= 1.1.4),
+    dht (>= 0.1.0),
+    purrr (>= 0.3.4),
+    tibble (>= 3.1.5)
+Remotes: 
+    degauss-org/dht,
+    geomarker-io/s3
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

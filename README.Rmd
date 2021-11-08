@@ -1,0 +1,49 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# addAadtData
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of `addAadtData` is to add Average Annual Daily Traffic (AADT) values to geocoded data.
+
+Input data should have columns called `lat` and `lon` that contain geographic coordinates. `addAadtData` estimates the exposure to traffic within a user-specified radius (defaults to 400 m) around the input coordinates. Specifically, the `length` of roads (in meters), the average daily number of vehicles multiplied by the length of the roads (`vehicle_meters`), and the average daily number of trucks multiplied by the length of the roads (`truck_meters`) are calculated. Each of these variables is broken down into either `moving` traffic (interstates, expressways, and freeways) or `stop_go` traffic (arterial roads with frequent stop lights). 
+
+## Installation
+
+``` r
+# install.packages("remotes")
+devtools::install_github("geomarker-io/addAadtData")
+```
+
+## Example
+
+```{r example}
+library(addAadtData)
+
+d <- tibble::tribble(
+  ~id,       ~lat,        ~lon,
+  55001310120,         NA,          NA,
+  55000100280,   39.19674,  -84.582601,
+  55000100281,   39.28765,  -84.510173,
+  55000100282,  39.158521,  -84.417572,
+  55000100283,  39.158521,  -84.417572,
+  55000100284, 39.2747872, -84.8203868,
+  55000100285, 39.2810336, -84.8564059,
+)
+
+add_aadt(d)
+```
