@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # addAadtData
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/geomarker-io/addAadtData/workflows/R-CMD-check/badge.svg)](https://github.com/geomarker-io/addAadtData/actions)
 <!-- badges: end -->
 
 The goal of `addAadtData` is to add Average Annual Daily Traffic (AADT) values to geocoded data.

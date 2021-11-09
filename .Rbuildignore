@@ -4,3 +4,4 @@
 ^s3_downloads$
 ^README\.Rmd$
 ^data-raw$
+^\.github$
