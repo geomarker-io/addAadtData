@@ -4,6 +4,8 @@
 # addAadtData
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/geomarker-io/addAadtData/workflows/R-CMD-check/badge.svg)](https://github.com/geomarker-io/addAadtData/actions)
 <!-- badges: end -->
 
 The goal of `addAadtData` is to add Average Annual Daily Traffic (AADT)
@@ -19,6 +21,10 @@ the length of the roads (`truck_meters`) are calculated. Each of these
 variables is broken down into either `moving` traffic (interstates,
 expressways, and freeways) or `stop_go` traffic (arterial roads with
 frequent stop lights).
+
+AADT data was obtained from the U.S. Department of Transportation
+[Federal Highway
+Administration](https://www.fhwa.dot.gov/policyinformation/hpms/shapefiles_2017.cfm).
 
 ## Installation
 
