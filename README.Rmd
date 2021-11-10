@@ -19,11 +19,16 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/geomarker-io/addAadtData/workflows/R-CMD-check/badge.svg)](https://github.com/geomarker-io/addAadtData/actions)
 <!-- badges: end -->
 
-The goal of `addAadtData` is to add Average Annual Daily Traffic (AADT) values to geocoded data.
+The goal of `addAadtData` is to add Average Annual Daily Traffic (AADT) data from the U.S. Department of Transportation [Federal Highway Administration](https://www.fhwa.dot.gov/policyinformation/hpms/shapefiles_2017.cfm) to geocoded data.
 
-Input data should have columns called `lat` and `lon` that contain geographic coordinates. `addAadtData` estimates the exposure to traffic within a user-specified radius (defaults to 400 m) around the input coordinates. Specifically, the `length` of roads (in meters), the average daily number of vehicles multiplied by the length of the roads (`vehicle_meters`), and the average daily number of trucks multiplied by the length of the roads (`truck_meters`) are calculated. Each of these variables is broken down into either `moving` traffic (interstates, expressways, and freeways) or `stop_go` traffic (arterial roads with frequent stop lights). 
+Input data should have columns called `lat` and `lon` that contain geographic coordinates. `addAadtData` estimates the exposure to traffic within a user-specified radius (defaults to 400 m) around the input coordinates. Specifically, the `length` of roads (in meters), the average daily number of vehicles multiplied by the length of the roads (`vehicle_meters`), and the average daily number of trucks multiplied by the length of the roads (`truck_meters`) are calculated. 
 
-AADT data was obtained from the U.S. Department of Transportation [Federal Highway Administration](https://www.fhwa.dot.gov/policyinformation/hpms/shapefiles_2017.cfm).
+Each of these variables is broken down by traffic type, as defined below:
+
+| **traffic type** |  **types of roads** | **FHA F_System Classification** |
+|--------------------|-------------------|-------------------|
+| `moving` | interstates, expressways, and freeways | `Interstate` and `Principal Arterial - Other Freeways and Expressways` |
+| `stop_go` | arterial roads (frequent stops lights, etc) | `Principal Arterial - Other` and `Minor Arterial` |
 
 ## Installation
 
