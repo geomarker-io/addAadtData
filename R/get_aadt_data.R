@@ -5,27 +5,33 @@ make_buffers <- function(d, buffer_radius) {
   return(d_buffers)
 }
 
-download_aadt_by_state <- function(d_buffers, ...) {
-  states_needed <- unique(d_buffers$state)
-  file_name <- glue::glue('{states_needed}2017.qs')
+# download_aadt_by_state <- function(d_buffers, ...) {
+#   states_needed <- unique(d_buffers$state)
+#   file_name <- glue::glue('{states_needed}2017.qs')
+#
+#   aadt_file_path <- s3::s3_get_files(glue::glue('s3://geomarker/aadt/aadt_by_state/{file_name}'),
+#                                      confirm = FALSE, ...) %>%
+#     .$file_path %>%
+#     sort()
+#
+#   return(aadt_file_path)
+# }
 
-  aadt_file_path <- s3::s3_get_files(glue::glue('s3://geomarker/aadt/aadt_by_state/{file_name}'),
-                                     confirm = FALSE, ...) %>%
-    .$file_path %>%
-    sort()
+get_aadt_intersection <- function(d_buffers_by_state) {
+  state_name <- unique(d_buffers_by_state$state)
+  cli::cli_progress_message("Reading and joining data for {state_name}...")
 
-  return(aadt_file_path)
-}
-
-get_aadt_intersection <- function(aadt_path, d_buffers_by_state) {
-  cli::cli_progress_message("Reading and joining data for {unique(d_buffers_by_state$state)}...")
-  aadt <- qs::qread(aadt_path) %>%
+  aadt <- system.file("extdata", glue::glue('{state_name}2017.qs'), package = 'addAadtData') %>%
+    qs::qread() %>%
     dplyr::filter(road_type %in% c('Interstate',
                             'Principal Arterial - Other Freeways and Expressways',
                             'Principal Arterial - Other', 'Minor Arterial'))
+
     d_aadt <- suppressWarnings(sf::st_intersection(d_buffers_by_state, aadt))
     return(d_aadt)
 }
+
+
 
 summarize_aadt_data <- function(d_aadt) {
   d_aadt %>%
@@ -85,10 +91,11 @@ add_aadt <- function(d, buffer_radius = 400, ...) {
     sf::st_transform(5072)
 
   d_buffers <- make_buffers(d, buffer_radius)
-  aadt_file_path <- download_aadt_by_state(d_buffers, ...)
+  # aadt_file_path <- download_aadt_by_state(d_buffers, ...)
 
   d_buffers_by_state <- split(d_buffers, d_buffers$state)
-  d_aadt <- purrr::map2_dfr(aadt_file_path, d_buffers_by_state, get_aadt_intersection)
+#######
+  d_aadt <- purrr::map_dfr(d_buffers_by_state, get_aadt_intersection)
   d_aadt <- dplyr::arrange(d_aadt, buffer_index)
 
   d_aadt <- suppressMessages(summarize_aadt_data(d_aadt))
