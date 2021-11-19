@@ -23,7 +23,7 @@ test_that("add_aadt() works", {
 
 test_that("add_aadt() works with provided aadt_path", {
   expect_equal(
-    add_aadt(test_data, download_folder = 's3_downloads'),
+    add_aadt(test_data),
     test_data %>%
       dplyr::mutate(length_stop_go = c(NA, NA, 509, 1244, 1244, 736, 845),
                     length_moving = c(NA, NA, NA, NA, NA, 1071, 1221),

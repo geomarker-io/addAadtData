@@ -5,18 +5,6 @@ make_buffers <- function(d, buffer_radius) {
   return(d_buffers)
 }
 
-# download_aadt_by_state <- function(d_buffers, ...) {
-#   states_needed <- unique(d_buffers$state)
-#   file_name <- glue::glue('{states_needed}2017.qs')
-#
-#   aadt_file_path <- s3::s3_get_files(glue::glue('s3://geomarker/aadt/aadt_by_state/{file_name}'),
-#                                      confirm = FALSE, ...) %>%
-#     .$file_path %>%
-#     sort()
-#
-#   return(aadt_file_path)
-# }
-
 get_aadt_intersection <- function(d_buffers_by_state) {
   state_name <- unique(d_buffers_by_state$state)
   cli::cli_progress_message("Reading and joining data for {state_name}...")
@@ -30,8 +18,6 @@ get_aadt_intersection <- function(d_buffers_by_state) {
     d_aadt <- suppressWarnings(sf::st_intersection(d_buffers_by_state, aadt))
     return(d_aadt)
 }
-
-
 
 summarize_aadt_data <- function(d_aadt) {
   d_aadt %>%
@@ -59,7 +45,6 @@ summarize_aadt_data <- function(d_aadt) {
 #'
 #' @param d data.frame or tibble with columns called 'lat', 'lon'
 #' @param buffer_radius buffer radius in meters, defaults to 400 m
-#' @param ... arguments passed to \code{s3::s3_get_files()}
 #'
 #' @return the input dataframe, with lengths, vehicle meters for all vehicle
 #'         types, and vehicle meters for trucks for both moving (interstates, freeways,
@@ -76,7 +61,7 @@ summarize_aadt_data <- function(d_aadt) {
 #'    add_aadt(d)
 #' }
 #' @export
-add_aadt <- function(d, buffer_radius = 400, ...) {
+add_aadt <- function(d, buffer_radius = 400) {
   dht::check_for_column(d, "lat", d$lat)
   dht::check_for_column(d, "lon", d$lon)
 
@@ -91,10 +76,7 @@ add_aadt <- function(d, buffer_radius = 400, ...) {
     sf::st_transform(5072)
 
   d_buffers <- make_buffers(d, buffer_radius)
-  # aadt_file_path <- download_aadt_by_state(d_buffers, ...)
-
   d_buffers_by_state <- split(d_buffers, d_buffers$state)
-#######
   d_aadt <- purrr::map_dfr(d_buffers_by_state, get_aadt_intersection)
   d_aadt <- dplyr::arrange(d_aadt, buffer_index)
 
