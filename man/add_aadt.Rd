@@ -4,14 +4,12 @@
 \alias{add_aadt}
 \title{add average annual daily traffic to geocoded data}
 \usage{
-add_aadt(d, buffer_radius = 400, ...)
+add_aadt(d, buffer_radius = 400)
 }
 \arguments{
 \item{d}{data.frame or tibble with columns called 'lat', 'lon'}
 
 \item{buffer_radius}{buffer radius in meters, defaults to 400 m}
-
-\item{...}{arguments passed to \code{s3::s3_get_files()}}
 }
 \value{
 the input dataframe, with lengths, vehicle meters for all vehicle
