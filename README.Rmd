@@ -32,7 +32,12 @@ Each of these variables is broken down by traffic type, as defined below:
 
 ## Installation
 
+Because this package contains all the aadt data, it takes a few minutes to install.
+
 ``` r
+# adjust options to allow for longer download
+options(timeout = 300)
+
 # install.packages("remotes")
 devtools::install_github("geomarker-io/addAadtData")
 ```

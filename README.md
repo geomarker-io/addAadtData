@@ -31,7 +31,13 @@ below:
 
 ## Installation
 
+Because this package contains all the aadt data, it takes a few minutes
+to install.
+
 ``` r
+# adjust options to allow for longer download
+options(timeout = 300)
+
 # install.packages("remotes")
 devtools::install_github("geomarker-io/addAadtData")
 ```
@@ -53,7 +59,6 @@ d <- tibble::tribble(
 )
 
 add_aadt(d)
-#> ℹ all files already exist
 #> Reading and joining data for indiana...
 #> Reading and joining data for ohio...
 #> # A tibble: 7 × 9
