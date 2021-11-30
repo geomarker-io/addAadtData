@@ -45,7 +45,7 @@ devtools::install_github("geomarker-io/addAadtData")
 ## Example
 
 ``` r
-library(addAadtData)
+library(addAadtData) 
 
 d <- tibble::tribble(
   ~id,       ~lat,        ~lon,
@@ -60,15 +60,17 @@ d <- tibble::tribble(
 
 add_aadt(d)
 #> Reading and joining data for indiana...
+#> Joining, by = c("row_index", "buffer_index", "state")
 #> Reading and joining data for ohio...
+#> Joining, by = c("row_index", "buffer_index", "state")
 #> # A tibble: 7 × 9
 #>            id   lat   lon length_stop_go length_moving vehicle_meters_stop_go
 #>         <dbl> <dbl> <dbl>          <dbl>         <dbl>                  <dbl>
 #> 1 55001310120  NA    NA               NA            NA                     NA
-#> 2 55000100280  39.2 -84.6             NA            NA                     NA
-#> 3 55000100281  39.3 -84.5            509            NA                5900865
-#> 4 55000100282  39.2 -84.4           1244            NA               28109695
-#> 5 55000100283  39.2 -84.4           1244            NA               28109695
+#> 2 55000100280  39.2 -84.6              0             0                      0
+#> 3 55000100281  39.3 -84.5            509             0                5900865
+#> 4 55000100282  39.2 -84.4           1244             0               28109695
+#> 5 55000100283  39.2 -84.4           1244             0               28109695
 #> 6 55000100284  39.3 -84.8            736          1071                3452560
 #> 7 55000100285  39.3 -84.9            845          1221                3075845
 #> # … with 3 more variables: vehicle_meters_moving <dbl>,
