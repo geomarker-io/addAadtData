@@ -16,12 +16,14 @@ get_aadt_intersection <- function(d_buffers_by_state) {
                             'Principal Arterial - Other', 'Minor Arterial'))
 
     d_aadt <- suppressWarnings(sf::st_intersection(d_buffers_by_state, aadt))
+    d_aadt <- dplyr::left_join(d_buffers_by_state %>% sf::st_drop_geometry(), d_aadt) %>%
+      sf::st_as_sf()
     return(d_aadt)
 }
 
 summarize_aadt_data <- function(d_aadt) {
   d_aadt %>%
-    dplyr::mutate(length = sf::st_length(.),
+    dplyr::mutate(length = as.numeric(sf::st_length(.)),
                   aadt = as.numeric(aadt),
                   aadt_length = aadt*length,
                   aadt_truck = as.numeric(aadt_single_unit) + as.numeric(aadt_combination),
@@ -81,6 +83,19 @@ add_aadt <- function(d, buffer_radius = 400) {
   d_aadt <- dplyr::arrange(d_aadt, buffer_index)
 
   d_aadt <- suppressMessages(summarize_aadt_data(d_aadt))
+
+  # bind to row of zeros to ensure all columns make it to output
+  d_aadt <- dplyr::bind_rows(tibble::tibble(buffer_index = 0, length_stop_go = 0, length_moving = 0,
+                                            vehicle_meters_stop_go = 0,  vehicle_meters_moving = 0,
+                                            truck_meters_stop_go = 0, truck_meters_moving = 0),
+                             d_aadt) %>%
+    dplyr::filter(buffer_index != 0) %>%
+    dplyr::select(buffer_index, length_stop_go, length_moving,
+                  vehicle_meters_stop_go, vehicle_meters_moving,
+                  truck_meters_stop_go, truck_meters_moving)
+
+  # replace all NAs with 0
+  d_aadt[is.na(d_aadt)] = 0
 
   d_aadt <- d_buffers %>%
     sf::st_drop_geometry() %>%
