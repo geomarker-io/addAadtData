@@ -16,7 +16,9 @@ get_aadt_intersection <- function(d_buffers_by_state) {
                             'Principal Arterial - Other', 'Minor Arterial'))
 
     d_aadt <- suppressWarnings(sf::st_intersection(d_buffers_by_state, aadt))
-    d_aadt <- dplyr::left_join(d_buffers_by_state %>% sf::st_drop_geometry(), d_aadt) %>%
+    d_aadt <- dplyr::left_join(d_buffers_by_state %>% sf::st_drop_geometry(),
+                               d_aadt,
+                               by = c("row_index", "buffer_index", "state")) %>%
       sf::st_as_sf()
     return(d_aadt)
 }
