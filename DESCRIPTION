@@ -1,6 +1,6 @@
 Package: addAadtData
 Title: Add Average Annual Daily Traffic Values to Geocoded Data
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: c(
     person(given = "Erika",
            family = "Rasnick",
